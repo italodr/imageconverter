@@ -5,7 +5,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Test</title>
+    <title>dist<test-folder-1>
     <style>
       img {
         display: block;
@@ -19,26 +19,6 @@
         padding: 0 20px;
         width: 100%;
       }
-
-      .wrapper + .wrapper {
-        margin-top: 30px;
-      }
-
-      .cols {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: space-between;
-      }
-
-      .col {
-        width: 100%;
-      }
-
-      @media screen and (min-width: 768px) {
-        .col {
-          width: 32%;
-        }
-      }
     </style>
   </head>
 
@@ -46,78 +26,21 @@
     <section class="wrapper">
       <h1>Uso de srcset y webp</h1>
       <p>
-        Con picture y utilizando el width de la imagen, el navegador carga la mejor imagen para el
-        tamaño puesto. Si utilizas la misma imagen en otro tamaño más pequeño, utilizará la de
-        mayor
-        tamaño porque considera que tiene una resolución mejor y ya está almacenada en caché por lo
-        que no tiene que cargarla nuevamente.<br />
-        Si se hace una primera carga en mobile cargará la de 320, e irá cambiando al hacer resize.
-        Pero al volver a hacer resize utiliza la mayor con mejor resolución.
+        Con picture y utilizando el width de la imagen, el navegador carga la mejor imagen para el tamaño puesto. Si utilizas la misma imagen en otro tamaño más pequeño, utilizará la de mayor tamaño porque considera que tiene una resolución mejor y ya está almacenada en caché por lo que no tiene que cargarla nuevamente.<br />
+        Si se hace una primera carga en mobile cargará la de 320, e irá cambiando al hacer resize. Pero al volver a hacer resize utiliza la mayor con mejor resolución.
       </p>
       <picture>
         <source srcset="
-            test/mighty-lion/mighty-lion-320.webp   320w,
-            test/mighty-lion/mighty-lion-640.webp   640w,
-            test/mighty-lion/mighty-lion-960.webp   960w,
-            test/mighty-lion/mighty-lion-1280.webp 1280w,
-            test/mighty-lion/mighty-lion-1920.webp 1920w,
-            test/mighty-lion/mighty-lion-2880.webp 2880w
-          "
-          sizes="(min-width: 960px) 960px, 100vw" type="image/webp" />
-        <img src="test/mighty-lion/mighty-lion-2880.jpg" srcset="
-            test/mighty-lion/mighty-lion-320.jpg   320w,
-            test/mighty-lion/mighty-lion-960.jpg   960w,
-            test/mighty-lion/mighty-lion-1280.jpg 1280w,
-            test/mighty-lion/mighty-lion-1920.jpg 1920w,
-            test/mighty-lion/mighty-lion-2880.jpg 2880w
-          "
-          sizes="(min-width: 960px) 960px, 100vw" alt="mighty-lion" />
+            dist/test-folder-1/thumb/test-image-1.webp   320w,
+            dist/test-folder-1/small/test-image-1.webp   640w,
+            dist/test-folder-1/medium/test-image-1.webp   960w
+          " sizes="(min-width: 960px) 960px, 100vw" type="image/webp" />
+        <img src="dist/test-folder-1/mighty-lion-2880.jpg" srcset="
+            dist/test-folder-1/thumb/test-image-1.jpg   320w,
+            dist/test-folder-1/small/test-image-1.jpg   640w,
+            dist/test-folder-1/medium/test-image-1.jpg   960w
+          " sizes="(min-width: 960px) 960px, 100vw" alt="" />
       </picture>
-    </section>
-    <section class="wrapper">
-      <div class="cols">
-        <div class="col">
-          <picture>
-            <source srcset="
-                test/mighty-lion/mighty-lion-320.webp 320w,
-                test/mighty-lion/mighty-lion-640.webp 640w,
-                test/mighty-lion/mighty-lion-960.webp 960w
-              "
-              sizes="(min-width: 768px) 320px" type="image/webp" />
-            <img src="test/mighty-lion/mighty-lion-pixel.jpg" srcset="
-                test/mighty-lion/mighty-lion-320.jpg 320w,
-                test/mighty-lion/mighty-lion-640.jpg 640w,
-                test/mighty-lion/mighty-lion-960.jpg 960w
-              "
-              sizes="(min-width: 768px) 320px" alt="mighty-lion" />
-          </picture>
-          <h2>Column 1</h2>
-          <p>
-            Don't be too proud of this technological terror you've constructed. The ability to
-            destroy a planet is insignificant next to the power of the Force.
-          </p>
-        </div>
-        <div class="col">
-          <img src="test/mighty-lion/mighty-lion-pixel.jpg" srcset="
-              test/mighty-lion/mighty-lion-320.jpg 320w,
-              test/mighty-lion/mighty-lion-640.jpg 640w,
-              test/mighty-lion/mighty-lion-960.jpg 960w
-            "
-            sizes="(min-width: 768px) 320px" alt="mighty-lion" />
-          <h2>No webp</h2>
-          <p>
-            Don't be too proud of this technological terror you've constructed. The ability to
-            destroy a planet is insignificant next to the power of the Force.
-          </p>
-        </div>
-        <div class="col">
-          <h2>Column 3</h2>
-          <p>
-            Don't be too proud of this technological terror you've constructed. The ability to
-            destroy a planet is insignificant next to the power of the Force.
-          </p>
-        </div>
-      </div>
     </section>
     <script>
       if (!!window.MSInputMethodContext && !!document.documentMode) {

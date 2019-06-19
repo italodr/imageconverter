@@ -1,45 +1,48 @@
 #!/usr/bin/env bash
-shopt -s extglob
+shopt -s nullglob
 
-rm -rf test/
+BASE_PATH=images
+DEST_PATH=dist
+QUALITY=70
+SIZES=(150 450 650)
+SIZES_NAME=(thumb small medium)
 
-function resizeImage {
-  for img in *.@(jpg|png|gif)
+rm -rf $DEST_PATH
+
+resizeImage() {
+  basepath=${1%/*}
+  base=${1##*/}
+  extension=${base##*.}
+  basename=${base%.*}
+  destPath=${basepath/images/$DEST_PATH}
+
+  echo "  — Processing image ${basename}";
+  for (( i = 0; i < ${#SIZES[@]}; ++i )); do
+    newDestPath=$destPath/${SIZES_NAME[i]}
+    mkdir -p $newDestPath
+    mkdir -p $destPath/full
+    convert $1 $destPath/full/$basename.$extension
+    convert $1 $destPath/full/$basename.webp
+    convert $1 -resize ${SIZES[i]} -quality $QUALITY $newDestPath/$basename.$extension
+    convert $1 -resize ${SIZES[i]} -quality $QUALITY $newDestPath/$basename.webp
+  done
+}
+
+imageParser() {
+  for f in $1/*
   do
-    basepath=${img%/*}
-    base=${img##*/}
-    extension=${base##*.}
-    basename=${base%.*}
-
-    mkdir -p test/$basename
-    convert $img -resize $1 -quality $2 -background Khaki -pointsize 30 label:"$1 $extension" -gravity Center -append -verbose test/$basename/$basename$3.$extension
-    if [ $1 -gt 1 ]; then
-      convert $img -resize $1 -quality $2 -background Khaki -pointsize 30 label:"$1 webp" -gravity Center -append -verbose test/$basename/$basename$3.webp
-      # convert $img -resize $1 -quality $2 -background Khaki -pointsize 30 label:"$1 jpeg-2000" -gravity Center -append -verbose test/$basename/$basename$3.jp2
+    if [ -d "${f}" ] ; then
+        echo "\n— Working on directory: ${f}";
+        imageParser $f
+    else
+        if [ -f "${f}" ]; then
+            resizeImage $f
+        else
+            echo "— Invalid file: ${f}";
+            exit 1
+        fi
     fi
   done
 }
 
-# |----------|----------|----------|----------|
-# |  size px |   @1.5x  |    @2x   |    @3x   |
-# |----------|----------|----------|----------|
-# |    320   |    480   |    640   |    960   |
-# |    640   |    960   |    1280  |    1920  |
-# |    960   |    1440  |    1920  |    2880  |
-# |    1280  |    1920  |    2560  |    3840  |
-# |    1600  |    2400  |    3200  |    4800  |
-# |    1920  |    2880  |    3840  |    5760  |
-# |----------|----------|----------|----------|
-
-# sizes=(320 640 960 1280 1600 1920)
-# sizes2x=(640 1280 1920 2560 3200 3840)
-# sizes3x=(960 1920 2880 3840 4800 5760)
-# quality=(70 70 70 70 70 70)
-
-#test
-sizes=(320 480 640 960 1280 1440 1600 1920 2400 2560 2880 3200 3840 4800 5760)
-
-resizeImage 1 1 "-pixel"
-for (( i = 0; i < ${#sizes[@]}; ++i )); do
-  resizeImage ${sizes[i]} 70 "-${sizes[i]}"
-done
+imageParser $BASE_PATH

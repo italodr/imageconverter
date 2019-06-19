@@ -1,0 +1,10 @@
+{
+  "name": "imageconverter",
+  "version": "1.0.0",
+  "description": "Bash script to convert images files using imagemagick",
+  "main": "index.html",
+  "repository": "git@github.com:italodr/imageconverter.git",
+  "author": "Italo Devoto Ramella <italodr@gmail.com>",
+  "license": "MIT",
+  "private": true
+}
