@@ -14,7 +14,7 @@ resizeImage() {
   base=${1##*/}
   extension=${base##*.}
   basename=${base%.*}
-  destPath=${basepath/images/$DEST_PATH}
+  destPath=${basepath/$BASE_PATH/$DEST_PATH}
 
   echo "  — Processing image ${basename}";
   for (( i = 0; i < ${#SIZES[@]}; ++i )); do
